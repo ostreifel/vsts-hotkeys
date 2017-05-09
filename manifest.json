@@ -1,23 +1,21 @@
 {
-  "manifest_version": 2,
-  "name": "VSTS Custom Icons",
-  "description": "Upload your own icons on Visual Studio Team Services",
-  "version": "1.0",
-  "permissions": [
-    "activeTab",
-    "storage",
-    "https://ajax.googleapis.com/"
-  ],
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*.visualstudio.com/*"
-      ],
-      "css": [],
-      "js": [
-        "node_modules/jquery/dist/jquery.min.js",
-        "customIcons.js"
-      ]
-    }
-  ]
+    "manifest_version": 2,
+    "name": "VSTS Custom Icons",
+    "description": "Upload your own icons on Visual Studio Team Services",
+    "version": "1.0",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "https://ajax.googleapis.com/"
+    ],
+    "content_scripts": [{
+        "matches": [
+            "https://*.visualstudio.com/*"
+        ],
+        "css": [],
+        "js": [
+            "node_modules/jquery/dist/jquery.min.js",
+            "dist/customIcons.js"
+        ]
+    }]
 }

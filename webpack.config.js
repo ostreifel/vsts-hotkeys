@@ -5,13 +5,12 @@ module.exports = {
         customIcons: "./js/customIcons.js",
     },
     output: {
-        libraryTarget: "amd",
+        libraryTarget: "umd",
         filename: "[name].js"
     },
-    externals: [{
-    },
+    externals: [{},
         /^TFS\//, // Ignore TFS/* since they are coming from VSTS host 
-        /^VSS\//  // Ignore VSS/* since they are coming from VSTS host
+        /^VSS\// // Ignore VSS/* since they are coming from VSTS host
     ],
     resolve: {
         alias: { "OfficeFabric": "../node_modules/office-ui-fabric-react/lib-amd" }
@@ -25,5 +24,5 @@ module.exports = {
                 comments: false,
             },
         }),
-    ]    
+    ]
 };
