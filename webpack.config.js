@@ -8,12 +8,13 @@ module.exports = {
         libraryTarget: "umd",
         filename: "[name].js"
     },
-    externals: [{},
-        /^TFS\//, // Ignore TFS/* since they are coming from VSTS host 
-        /^VSS\// // Ignore VSS/* since they are coming from VSTS host
-    ],
+    externals: [{}],
     resolve: {
-        alias: { "OfficeFabric": "../node_modules/office-ui-fabric-react/lib-amd" }
+        alias: {
+            "OfficeFabric": "../node_modules/office-ui-fabric-react/lib-amd",
+            "react": "../node_modules/react/dist",
+            "react-dom": "../node_modules/react-dom/dist"
+        }
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
