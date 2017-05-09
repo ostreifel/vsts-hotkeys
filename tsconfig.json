@@ -5,6 +5,11 @@
         "noImplicitAny": false,
         "sourceMap": false,
         "outDir": "js",
-        "rootDir": "scripts"
+        "rootDir": "scripts",
+        "baseUrl": ".",
+        "moduleResolution": "node",
+        "paths": {
+            "OfficeFabric/*": ["node_modules/office-ui-fabric-react/lib-amd/*"]
+        }
     }
 }
