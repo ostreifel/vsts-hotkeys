@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.6.0",
   "devDependencies": {
-    "@types/chrome": "0.0.46"
+    "@types/chrome": "0.0.46",
+    "@types/jquery": "^2.0.43",
+    "jquery": "^3.2.1",
+    "office-ui-fabric-core": "^7.0.0"
   }
 }

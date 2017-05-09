@@ -1,18 +1,23 @@
 {
   "manifest_version": 2,
-
   "name": "VSTS Custom Icons",
-  "description": "This extension draws lines around the boxes in the new form on Visual Studio Team Services",
+  "description": "Upload your own icons on Visual Studio Team Services",
   "version": "1.0",
   "permissions": [
     "activeTab",
+    "storage",
     "https://ajax.googleapis.com/"
   ],
   "content_scripts": [
     {
-      "matches": ["https://*.visualstudio.com/*"],
+      "matches": [
+        "https://*.visualstudio.com/*"
+      ],
       "css": [],
-      "js": ["customIcons.js"]
+      "js": [
+        "node_modules/jquery/dist/jquery.min.js",
+        "customIcons.js"
+      ]
     }
   ]
 }
