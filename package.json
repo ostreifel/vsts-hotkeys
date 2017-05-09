@@ -1,0 +1,8 @@
+{
+  "name": "custom-icons",
+  "private": true,
+  "version": "0.6.0",
+  "devDependencies": {
+    "@types/chrome": "0.0.46"
+  }
+}
