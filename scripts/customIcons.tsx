@@ -3,7 +3,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 
 const dialogContainer = $("<div></div>");
-$(document).append(dialogContainer);
+$("body").append(dialogContainer[0]);
 
 class SelectIconDialog extends React.Component<{}, {}> {
     public render() {
@@ -11,12 +11,15 @@ class SelectIconDialog extends React.Component<{}, {}> {
     }
 }
 ReactDom.render(<SelectIconDialog />, dialogContainer[0]);
-function inputIcon() {
-    ReactDom.render(<SelectIconDialog>Icon Clicked</SelectIconDialog>, dialogContainer[0]);
+function inputIcon(classes) {
+    ReactDom.render(<SelectIconDialog>{`Icon Clicked ${classes}`}</SelectIconDialog>, dialogContainer[0]);
 }
 
 for (const iconElem of $.makeArray($(".work-item-type-icon:not(.custom-icon)"))) {
     const iconJquery = $(iconElem);
     iconJquery.addClass("custom-icon");
-    iconJquery.click(() => alert("test"));
+    iconJquery.click((e) => {
+        alert("test");
+        inputIcon(e.currentTarget.className);
+    });
 }
