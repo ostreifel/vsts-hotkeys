@@ -5,14 +5,14 @@ import * as ReactDom from "react-dom";
 const dialogContainer = $("<div></div>");
 $(document).append(dialogContainer);
 
-class SelectIconDialog extends React.Component<void, void> {
+class SelectIconDialog extends React.Component<{}, {}> {
     public render() {
         return <div>{this.props.children}</div>;
     }
 }
 ReactDom.render(<SelectIconDialog />, dialogContainer[0]);
 function inputIcon() {
-        ReactDom.render(<SelectIconDialog>Icon Clicked</SelectIconDialog>, dialogContainer[0]);
+    ReactDom.render(<SelectIconDialog>Icon Clicked</SelectIconDialog>, dialogContainer[0]);
 }
 
 for (const iconElem of $.makeArray($(".work-item-type-icon:not(.custom-icon)"))) {
