@@ -1,22 +1,20 @@
 const webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
     entry: {
         customIcons: "./js/customIcons.js",
     },
     output: {
-        libraryTarget: "umd",
+        libraryTarget: "var",
         filename: "[name].js"
     },
-    externals: [{
-        "react": true,
-        "react-dom": true
-    }],
     resolve: {
+        root: path.resolve("./"),
         alias: {
-            "OfficeFabric": "..\\node_modules\\office-ui-fabric-react\\lib-amd",
-            "react-dom":    "..\\node_modules\\react-dom",
-            "react":        "..\\node_modules\\react"
+            "OfficeFabric": path.resolve( __dirname, "node_modules", "office-ui-fabric-react", "lib-amd"),
+            "react-dom":    path.resolve( __dirname, "node_modules", "react-dom"),
+            "react":    path.resolve( __dirname, "node_modules", "react"),
         }
     },
     plugins: [

@@ -15,8 +15,6 @@
         "css": [],
         "js": [
             "node_modules/jquery/dist/jquery.min.js",
-            "node_modules/react/dist/react.min.js",
-            "node_modules/react-dom/dist/react-dom.min.js",
             "dist/customIcons.js"
         ]
     }]
