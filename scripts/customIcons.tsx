@@ -2,15 +2,18 @@ import { DefaultButton, PrimaryButton } from "OfficeFabric/components/Button";
 import { Dialog, DialogFooter, DialogType } from "OfficeFabric/components/Dialog";
 import * as React from "react";
 import * as ReactDom from "react-dom";
-import {saveFile} from "./imageStorage";
+import { saveFile, getFiles } from "./imageStorage";
 
 const dialogContainer = $("<div></div>");
 $("body").append(dialogContainer[0]);
 
-class SelectIconDialog extends React.Component<{cssClass: string}, { validFile: boolean }> {
+class SelectIconDialog extends React.Component<{ cssClass: string }, { hasUrl: boolean }> {
     constructor() {
         super();
-        this.state = { validFile: false };
+        this.state = { hasUrl: false };
+        getFiles(data => {
+            console.log("data retrieved", data, chrome.runtime.lastError);
+        });
     }
 
     public render() {
@@ -26,17 +29,15 @@ class SelectIconDialog extends React.Component<{cssClass: string}, { validFile: 
                 >
                     {`Update ${this.props.cssClass}`}
                     <input
-                        type="file"
-                        name="fileupload"
-                        id="icon-image-file"
+                        className="icon-image-url"
+                        placeholder="Paste image url..."
                         onChange={this.filesChanged.bind(this)}
-                        accept="image/*"
+                        style={{ width: "100%" }}
                     />
                     <DialogFooter>
                         <PrimaryButton
                             onClick={this._save.bind(this)}
-                            text="Save"
-                            disabled={!this.state.validFile}
+                            text={this.state.hasUrl ? "Set" : "Clear"}
                         />
                         <DefaultButton onClick={closeDialog} text="Cancel" />
                     </DialogFooter>
@@ -46,18 +47,14 @@ class SelectIconDialog extends React.Component<{cssClass: string}, { validFile: 
     }
 
     private filesChanged(e: JQueryEventObject) {
-        const input = $("#icon-image-file")[0] as HTMLInputElement;
-        const files = input.files;
-        const validFile = files && files.length === 1;
-        if (validFile !== this.state.validFile) {
-            this.setState({validFile});
+        const hasUrl = $(".icon-image-url").val().length > 0;
+        if (hasUrl !== this.state.hasUrl) {
+            this.setState({ hasUrl });
         }
     }
 
     private _save() {
-        const input = $("#icon-image-file")[0] as HTMLInputElement;
-        const imageFile = input.files[0];
-        saveFile(this.props.cssClass, imageFile);
+        saveFile(this.props.cssClass, $(".icon-image-url").val());
         closeDialog();
     }
 }
@@ -67,7 +64,7 @@ function closeDialog() {
 }
 
 function showDialog(cssClass: string) {
-    ReactDom.render(<SelectIconDialog cssClass={cssClass}/>, dialogContainer[0]);
+    ReactDom.render(<SelectIconDialog cssClass={cssClass} />, dialogContainer[0]);
 }
 
 function iconClicked(e: JQueryEventObject) {

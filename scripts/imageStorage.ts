@@ -1,15 +1,17 @@
-export function saveFile(cssClass: string, file: File) {
-    const fileReader = new FileReader();
-    fileReader.onload = (e) => saveFileContents(fileReader, e, cssClass);
-    fileReader.readAsDataURL(file);
+export function saveFile(cssClass: string, fileUrl: string) {
+    if (fileUrl) {
+        const blob = {};
+        blob[cssClass] = fileUrl;
+        chrome.storage.sync.set(blob, () => {
+            console.log("image saved for ", cssClass, chrome.runtime.lastError);
+        });
+    } else {
+        chrome.storage.sync.remove(cssClass, () => {
+            console.log("image removed", chrome.runtime.lastError)
+        });
+    }
 }
 
-function saveFileContents(fileReader: FileReader, e: Event, cssClass: string) {
-    chrome.storage.sync.set({cssClass: fileReader.result}, () => {
-        console.log("image saved for ", cssClass);
-    });
-}
-
-export function getFiles(callback: () => {[cssClass: string]: string}): void {
+export function getFiles(callback: (data: { [cssClass: string]: string }) => void): void {
     chrome.storage.sync.get(callback);
 }
