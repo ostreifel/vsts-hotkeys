@@ -38,7 +38,7 @@ class SelectIconDialog extends React.Component<IDialogProperties, { hasUrl: bool
                         placeholder="Paste image url..."
                         onChange={this.filesChanged.bind(this)}
                         style={{ width: "100%" }}
-                        value={this.props.initialValue}
+                        defaultValue={this.props.initialValue}
                     />
                     <DialogFooter>
                         <PrimaryButton
