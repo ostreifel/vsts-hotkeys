@@ -1,58 +1,79 @@
+import { DefaultButton, PrimaryButton } from "OfficeFabric/components/Button";
 import { Dialog, DialogFooter, DialogType } from "OfficeFabric/components/Dialog";
-import { PrimaryButton, DefaultButton } from "OfficeFabric/components/Button";
 import * as React from "react";
 import * as ReactDom from "react-dom";
+import {saveFile} from "./imageStorage";
 
 const dialogContainer = $("<div></div>");
 $("body").append(dialogContainer[0]);
 
-class SelectIconDialog extends React.Component<{}, { showDialog: boolean }> {
+class SelectIconDialog extends React.Component<{cssClass: string}, { validFile: boolean }> {
     constructor() {
         super();
-        this.state = {
-            showDialog: true
-        };
+        this.state = { validFile: false };
     }
 
     public render() {
         return (
             <div>
                 <Dialog
-                    isOpen={this.state.showDialog}
+                    isOpen={true}
                     type={DialogType.normal}
-                    onDismiss={this._closeDialog.bind(this)}
-                    title='All emails together'
-                    subText='Your Inbox has changed. No longer does it include favorites, it is a singular destination for your emails.'
+                    onDismiss={closeDialog}
+                    title={"Select a new icon"}
                     isBlocking={false}
-                    containerClassName='ms-dialogMainOverride'
+                    containerClassName="ms-dialogMainOverride"
                 >
-                    {this.props.children}
+                    {`Update ${this.props.cssClass}`}
+                    <input
+                        type="file"
+                        name="fileupload"
+                        id="icon-image-file"
+                        onChange={this.filesChanged.bind(this)}
+                        accept="image/*"
+                    />
                     <DialogFooter>
-                        <PrimaryButton onClick={this._closeDialog.bind(this)} text="Save" />
-                        <DefaultButton onClick={this._closeDialog.bind(this)} text="Cancel" />
+                        <PrimaryButton
+                            onClick={this._save.bind(this)}
+                            text="Save"
+                            disabled={!this.state.validFile}
+                        />
+                        <DefaultButton onClick={closeDialog} text="Cancel" />
                     </DialogFooter>
                 </Dialog>
             </div>
         );
     }
 
-    private _showDialog() {
-        this.setState({ showDialog: true });
+    private filesChanged(e: JQueryEventObject) {
+        const input = $("#icon-image-file")[0] as HTMLInputElement;
+        const files = input.files;
+        const validFile = files && files.length === 1;
+        if (validFile !== this.state.validFile) {
+            this.setState({validFile});
+        }
     }
 
-    private _closeDialog() {
-        this.setState({ showDialog: false });
+    private _save() {
+        const input = $("#icon-image-file")[0] as HTMLInputElement;
+        const imageFile = input.files[0];
+        saveFile(this.props.cssClass, imageFile);
+        closeDialog();
     }
 }
-function inputIcon(classes) {
-    ReactDom.render(<SelectIconDialog>{`Icon Clicked ${classes}`}</SelectIconDialog>, dialogContainer[0]);
+
+function closeDialog() {
+    ReactDom.render(<div />, dialogContainer[0]);
 }
 
-for (const iconElem of $.makeArray($(".work-item-type-icon:not(.custom-icon)"))) {
-    const iconJquery = $(iconElem);
-    iconJquery.addClass("custom-icon");
-    iconJquery.click((e) => {
-        alert("test");
-        inputIcon(e.currentTarget.className);
-    });
+function showDialog(cssClass: string) {
+    ReactDom.render(<SelectIconDialog cssClass={cssClass}/>, dialogContainer[0]);
 }
+
+function iconClicked(e: JQueryEventObject) {
+    const [symbolClass] = e.currentTarget.className.split(" ")
+        .filter((s) => s.indexOf("bowtie-symbol") === 0);
+    showDialog(symbolClass);
+}
+
+$("body").delegate(".work-item-type-icon-control", "click", iconClicked);

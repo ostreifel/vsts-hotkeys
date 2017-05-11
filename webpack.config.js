@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 var path = require('path');
+var EncodingPlugin = require('webpack-encoding-plugin');
 
 module.exports = {
     entry: {
@@ -18,13 +19,16 @@ module.exports = {
         }
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-            },
-            output: {
-                comments: false,
-            },
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false,
+        //     },
+        //     output: {
+        //         comments: false,
+        //     },
+        // }),
+        new EncodingPlugin({
+            encoding: 'utf-8'
         }),
     ]
 };
