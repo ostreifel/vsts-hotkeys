@@ -16,19 +16,17 @@ module.exports = {
             "OfficeFabric": path.resolve( __dirname, "node_modules", "office-ui-fabric-react", "lib-amd"),
             "react-dom":    path.resolve( __dirname, "node_modules", "react-dom"),
             "react":    path.resolve( __dirname, "node_modules", "react"),
+            "jquery":    path.resolve( __dirname, "node_modules", "jquery"),
         }
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false,
-        //     },
-        //     output: {
-        //         comments: false,
-        //     },
-        // }),
         new EncodingPlugin({
             encoding: 'utf-8'
+        }),
+        new webpack.ProvidePlugin({
+            "$":"jquery",
+            "jQuery":"jquery",
+            "window.jQuery":"jquery"
         }),
     ]
 };

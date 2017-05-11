@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "VSTS Custom Icons",
     "description": "Upload your own icons on Visual Studio Team Services",
-    "version": "1.0",
+    "version": "1.0.2",
     "permissions": [
         "activeTab",
         "storage",
@@ -20,7 +20,6 @@
             ],
             "css": [],
             "js": [
-                "node_modules/jquery/dist/jquery.min.js",
                 "dist/customIcons.js"
             ]
         }
