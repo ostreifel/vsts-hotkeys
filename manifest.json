@@ -1,7 +1,7 @@
 ﻿{
     "manifest_version": 2,
-    "name": "VSTS Custom Icons",
-    "description": "Upload your own icons on Visual Studio Team Services",
+    "name": "VSTS Hotkeys",
+    "description": "Add tooltips to buttons that show their current hotkeys",
     "version": "1.0.2",
     "permissions": [
         "activeTab",
@@ -20,7 +20,7 @@
             ],
             "css": [],
             "js": [
-                "dist/customIcons.js"
+                "dist/vstsHotkeys.js"
             ]
         }
     ]

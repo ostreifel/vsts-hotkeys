@@ -4,7 +4,7 @@ var EncodingPlugin = require('webpack-encoding-plugin');
 
 module.exports = {
     entry: {
-        customIcons: "./js/customIcons.js",
+        vstsHotkeys: "./js/vstsHotkeys.js",
     },
     output: {
         libraryTarget: "var",
