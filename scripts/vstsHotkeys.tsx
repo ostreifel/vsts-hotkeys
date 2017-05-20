@@ -1,8 +1,7 @@
 import { hotkeyMappings } from "./commandMappings";
 
-for (const command in hotkeyMappings) {
-    const selector = `[command="${command}"]`;
-    const hotkey = `Hotkey: ${hotkeyMappings[command]}`;
+for (const selector in hotkeyMappings) {
+    const hotkey = `Hotkey: ${hotkeyMappings[selector]}`;
     $("body").on("load ready mouseover", selector, (e) => {
         e.currentTarget.setAttribute("title", hotkey);
     });
