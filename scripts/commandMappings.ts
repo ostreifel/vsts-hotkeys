@@ -15,4 +15,12 @@ export const hotkeyMappings: {[command: string]: string} = {
     '[data-id="backlog"]': "l",
     '[command="fullscreen-toggle"]': "z",
     '[command="toggle-full-screen"]': "z",
+    // Work/query specific
+    '[command="new-query"]': "n q",
+    '[command="refresh-work-items"]': "n q",
+    '[command="navigate-back"]': "n q",
+    // Work/Board specific
+    ".board-add-card": "n",
+    ".add-item-text": "c",
+    '[command="add-child"]': "c",
 };
