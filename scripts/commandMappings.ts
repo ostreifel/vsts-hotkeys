@@ -23,4 +23,10 @@ export const hotkeyMappings: {[command: string]: string} = {
     ".board-add-card": "n",
     ".add-item-text": "c",
     '[command="add-child"]': "c",
+    // Code
+    '[command="ms.vss-code-web.files-hub-git"]': "e",
+    '[command="ms.vss-code-web.history-hub"]': "h",
+    '[command="ms.vss-code-web.branches-hub"]': "b",
+    '[command="ms.vss-code-web.pull-request-hub"]': "q",
+    ".new-pr-button-container": "c p",
 };
