@@ -29,4 +29,9 @@ export const hotkeyMappings: {[command: string]: string} = {
     '[command="ms.vss-code-web.branches-hub"]': "b",
     '[command="ms.vss-code-web.pull-request-hub"]': "q",
     ".new-pr-button-container": "c p",
+    // Code/files
+    ".path-editing-div": "t",
+    ".vc-branches-container": "w",
+    '.views [data-id="contents"]': "1",
+    '.views [data-id="history"]': "2",
 };
