@@ -17,6 +17,7 @@ module.exports = {
             "react-dom":    path.resolve( __dirname, "node_modules", "react-dom"),
             "react":    path.resolve( __dirname, "node_modules", "react"),
             "jquery":    path.resolve( __dirname, "node_modules", "jquery"),
+            "mousetrap":    path.resolve( __dirname, "node_modules", "mousetrap"),
         }
     },
     plugins: [

@@ -1,4 +1,28 @@
-export const hotkeyMappings: {[command: string]: string} = {
+// import { openCreateWorkItemMenu } from "./createWorkItemMenu";
+
+export interface IHotKey {
+    readonly description: string;
+    readonly hotkey: string;
+    readonly selector?: string;
+    readonly onCommand?: () => void;
+}
+
+/** Hotkeys that this extension adds to the product */
+export const extensionHotkeys: IHotKey[] = [
+    {
+        description: "toggle fullscreen mode on the work item dialog",
+        hotkey: "z",
+        selector: ".ui-dialog .full-screen-button",
+    },
+    // {
+    //     description: "create new workitem",
+    //     hotkey: "c w",
+    //     onCommand: openCreateWorkItemMenu,
+    // },
+];
+
+/** Ui elements to label the hotkeys of */
+export const hotkeyMappings: { [command: string]: string } = {
     // Global
     '[command="ms.vss-web.home-hub-group"]': "g h",
     '[command="ms.vss-work-web.work-hub-group"]': "g w",
@@ -8,18 +32,18 @@ export const hotkeyMappings: {[command: string]: string} = {
     '[command="ms.vss-test-web.test-hub-group"]': "g t",
     '[command="ms.vss-wiki-web.wiki-hub-group"]': "g k",
     "#multi-entity-search-box": "s",
-    // Work Specific
+    // Work
     '[command="ms.vss-work-web.agile-hub"]': "b for board, l for backlog",
     '[command="ms.vss-work-web.work-hub"]': "q",
     '[data-id="board"]': "b",
     '[data-id="backlog"]': "l",
     '[command="fullscreen-toggle"]': "z",
     '[command="toggle-full-screen"]': "z",
-    // Work/query specific
+    // Work/query
     '[command="new-query"]': "n q",
-    '[command="refresh-work-items"]': "n q",
-    '[command="navigate-back"]': "n q",
-    // Work/Board specific
+    '[command="refresh-work-items"]': "r",
+    '[command="navigate-back"]': "alt+q",
+    // Work/Board
     ".board-add-card": "n",
     ".add-item-text": "c",
     '[command="add-child"]': "c",
@@ -35,3 +59,8 @@ export const hotkeyMappings: {[command: string]: string} = {
     '.views [data-id="contents"]': "1",
     '.views [data-id="history"]': "2",
 };
+
+// Make sure to label extension hotkeys
+for (const { hotkey, selector } of extensionHotkeys) {
+    hotkeyMappings[selector] = hotkey;
+}
