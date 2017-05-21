@@ -63,7 +63,6 @@ function initializeWorkItemTypes(success: (workitemTypes: string[]) => void, fai
             "Content-Type": "application/json",
         },
         success: (data: IContributionResponse, status: string, xhr: JQueryXHR) => {
-            console.log("contribution response", data);
             success(data.data["ms.vss-work-web.new-workitem-data-provider"].workItemTypes);
         },
         error: (data: any, status: string, errorThrown: string) => {
@@ -76,11 +75,16 @@ function initializeWorkItemTypes(success: (workitemTypes: string[]) => void, fai
 export function openCreateWorkItemMenu() {
     initializeWorkItemTypes((workItemTypes) => {
         console.log("Success", workItemTypes);
+        const scriptContents = `require(
+            ["WorkItemTracking/SharedScripts/WorkItemDialogShim"],
+            (WITDialogShim) => {
+                WITDialogShim.createNewWorkItem("${workItemTypes[0]}");
+                //Remove this script tag once done
+                $("#createWorkItemInjection").remove();
+            }
+        );`;
+        $("body").append($("<script id=createWorkItemInjection/>").html(scriptContents));
     }, (message) => {
         console.log("failure", message);
     });
-    // $('[command="ms.vss-work-web.work-hub-group"]').mouseover();
-    // $('[command="all-work-items-hub-group-action"]').mouseover();
-    // console.log("moused", $('[command="ms.vss-work-web.work-hub-group"]'),
-    //     $('[command="all-work-items-hub-group-action"]'));
 }
