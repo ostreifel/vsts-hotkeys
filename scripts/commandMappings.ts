@@ -1,4 +1,4 @@
-// import { openCreateWorkItemMenu } from "./createWorkItemMenu";
+import { openCreateWorkItemMenu } from "./createWorkItemMenu";
 
 export interface IHotKey {
     readonly description: string;
@@ -14,11 +14,11 @@ export const extensionHotkeys: IHotKey[] = [
         hotkey: "z",
         selector: ".ui-dialog .full-screen-button",
     },
-    // {
-    //     description: "create new workitem",
-    //     hotkey: "c w",
-    //     onCommand: openCreateWorkItemMenu,
-    // },
+    {
+        description: "create new workitem",
+        hotkey: "c w",
+        onCommand: openCreateWorkItemMenu,
+    },
 ];
 
 /** Ui elements to label the hotkeys of */
