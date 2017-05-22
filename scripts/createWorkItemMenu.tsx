@@ -8,15 +8,9 @@ interface IProject {
 }
 
 function getProject(): IProject | null {
-    const contextIsland = $('script:contains("var __vssPageContext")');
-    if (contextIsland.length === 0) {
-        return null;
-    }
-    const blobMatch = contextIsland.html().match(/(\{.*\});/);
-    if (!blobMatch) {
-        return null;
-    }
-    return JSON.parse(blobMatch[1]).webContext.project;
+    // tslint:disable-next-line:no-string-literal
+    const context = window["__vssPageContext"];
+    return context && context.webContext.project;
 }
 
 interface IWorkItemTypeColorIcon {
@@ -75,15 +69,16 @@ function initializeWorkItemTypes(success: (workitemTypes: string[]) => void, fai
 export function openCreateWorkItemMenu() {
     initializeWorkItemTypes((workItemTypes) => {
         console.log("Success", workItemTypes);
-        const scriptContents = `require(
+        // TODO find another way to get this past the compiler
+        // tslint:disable-next-line:no-eval
+        eval(`
+        require(
             ["WorkItemTracking/SharedScripts/WorkItemDialogShim"],
             (WITDialogShim) => {
                 WITDialogShim.createNewWorkItem("${workItemTypes[0]}");
-                //Remove this script tag once done
-                $("#createWorkItemInjection").remove();
-            }
-        );`;
-        $("body").append($("<script id=createWorkItemInjection/>").html(scriptContents));
+            },
+        );
+        `);
     }, (message) => {
         console.log("failure", message);
     });

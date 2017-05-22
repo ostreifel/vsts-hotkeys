@@ -5,6 +5,7 @@ var EncodingPlugin = require('webpack-encoding-plugin');
 module.exports = {
     entry: {
         vstsHotkeys: "./js/vstsHotkeys.js",
+        vstsHotkeyInjection: "./js/vstsHotkeyInjection.js",
     },
     output: {
         libraryTarget: "var",

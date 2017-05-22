@@ -13,6 +13,7 @@
         "48": "icon48.png",
         "128": "icon128.png"
     },
+    "web_accessible_resources" : ["/dist/vstsHotkeys.js"],
     "content_scripts": [
         {
             "matches": [
@@ -20,7 +21,7 @@
             ],
             "css": [],
             "js": [
-                "dist/vstsHotkeys.js"
+                "dist/vstsHotkeyInjection.js"
             ]
         }
     ]
