@@ -1,6 +1,6 @@
-
-const jsonIsland = $("script.vss-web-page-data");
-const workItemNames: string[] = [];
+import { Dialog, DialogType } from "office-ui-fabric-react";
+import * as React from "react";
+import * as ReactDom from "react-dom";
 
 interface IProject {
     id: string;
@@ -32,7 +32,7 @@ interface IContributionResponse {
     ];
 }
 
-function initializeWorkItemTypes(success: (workitemTypes: string[]) => void, failure: (message: string) => void) {
+function getWorkItemTypes(success: (workitemTypes: string[]) => void, failure: (message: string) => void) {
     const project = getProject();
     if (!project) {
         failure("No project in current context");
@@ -66,19 +66,47 @@ function initializeWorkItemTypes(success: (workitemTypes: string[]) => void, fai
     });
 }
 
+const dialogContainer = $("<div id=createWorkItemDialogContainer/>");
+$("body").append(dialogContainer);
+
+
+export class SelectWorkItem extends React.Component<{ workItemTypes: string[] }, void> {
+    public render() {
+        console.log("a");
+        const witDivs = this.props.workItemTypes.map(wit =>
+            <div>
+                {wit}
+            </div>
+        );
+        return <Dialog
+            isOpen={true}
+            type={DialogType.normal}
+            onDismiss={() => this.close()}
+            title={"Complete key chord"}
+            isBlocking={false}
+        >
+            {witDivs}
+        </Dialog>;
+    }
+    private close() {
+        ReactDom.render(null, dialogContainer[0]);
+    }
+}
+
 export function openCreateWorkItemMenu() {
-    initializeWorkItemTypes((workItemTypes) => {
+    getWorkItemTypes((workItemTypes) => {
         console.log("Success", workItemTypes);
+        ReactDom.render(<SelectWorkItem workItemTypes={workItemTypes} />, dialogContainer[0]);
         // TODO find another way to get this past the compiler
         // tslint:disable-next-line:no-eval
-        eval(`
-        require(
-            ["WorkItemTracking/SharedScripts/WorkItemDialogShim"],
-            (WITDialogShim) => {
-                WITDialogShim.createNewWorkItem("${workItemTypes[0]}");
-            },
-        );
-        `);
+        // eval(`
+        // require(
+        //     ["WorkItemTracking/SharedScripts/WorkItemDialogShim"],
+        //     (WITDialogShim) => {
+        //         WITDialogShim.createNewWorkItem("${workItemTypes[0]}");
+        //     },
+        // );
+        // `);
     }, (message) => {
         console.log("failure", message);
     });
