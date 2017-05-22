@@ -17,6 +17,7 @@ export const extensionHotkeys: IHotKey[] = [
     {
         description: "create new workitem",
         hotkey: "c w",
+        selector: '[command="all-work-items-hub-group-action"]',
         onCommand: openCreateWorkItemMenu,
     },
 ];
@@ -40,7 +41,7 @@ export const hotkeyMappings: { [command: string]: string } = {
     '[command="fullscreen-toggle"]': "z",
     '[command="toggle-full-screen"]': "z",
     // Work/query
-    '[command="new-query"]': "n q",
+    '[command="new-query"]': "c q",
     '[command="refresh-work-items"]': "r",
     '[command="navigate-back"]': "alt+q",
     // Work/Board
