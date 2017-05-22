@@ -97,7 +97,11 @@ function newWorkItem(wit: string) {
     `);
 }
 
-export class SelectWorkItem extends React.Component<{ workItemTypes: string[] }, void> {
+export class SelectWorkItem extends React.Component<{ workItemTypes: string[] }, { isOpen: boolean }> {
+    constructor() {
+        super();
+        this.state = { isOpen: true };
+    }
     public render() {
         const hotkeys = generateHotkeys(this.props.workItemTypes);
         const witDivs = this.props.workItemTypes.map(wit =>
@@ -107,7 +111,7 @@ export class SelectWorkItem extends React.Component<{ workItemTypes: string[] },
                     if (e.key in hotkeys) {
                         e.preventDefault();
                         e.stopPropagation();
-                        newWorkItem(wit);
+                        newWorkItem(hotkeys[e.key]);
                         this.close();
                     }
                     console.log("Keypress", e.key);
@@ -125,7 +129,7 @@ export class SelectWorkItem extends React.Component<{ workItemTypes: string[] },
             </DefaultButton>
         );
         return <Dialog
-            isOpen={true}
+            isOpen={this.state.isOpen}
             type={DialogType.normal}
             title={"Complete key chord"}
             onDismiss={() => this.close()}
@@ -135,7 +139,9 @@ export class SelectWorkItem extends React.Component<{ workItemTypes: string[] },
         </Dialog>;
     }
     private close() {
-        dialogContainer.html("");
+        this.setState({isOpen: false}, () =>{
+           dialogContainer.html("");
+        });
     }
 }
 
