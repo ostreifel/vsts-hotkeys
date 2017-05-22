@@ -1,4 +1,4 @@
-import { Dialog, DialogType } from "office-ui-fabric-react";
+import { Dialog, DialogType, DefaultButton } from "office-ui-fabric-react";
 import * as React from "react";
 import * as ReactDom from "react-dom";
 
@@ -69,27 +69,73 @@ function getWorkItemTypes(success: (workitemTypes: string[]) => void, failure: (
 const dialogContainer = $("<div id=createWorkItemDialogContainer/>");
 $("body").append(dialogContainer);
 
+function generateHotkeys(workItemTypes: string[]): { [hotkeyOrWit: string]: string } {
+    const mappings: { [hotkeyOrWit: string]: string } = {};
+    for (const wit of workItemTypes) {
+        for (const char of wit) {
+            const lowerChar = char.toLowerCase();
+            if (!(lowerChar in mappings) && lowerChar != " ") {
+                mappings[lowerChar] = wit;
+                mappings[wit] = lowerChar;
+                break;
+            }
+        }
+    }
+    return mappings;
+}
+
+function newWorkItem(wit: string) {
+    // TODO find another way to get this past the compiler
+    // tslint:disable-next-line:no-eval
+    eval(`
+    require(
+        ["WorkItemTracking/SharedScripts/WorkItemDialogShim"],
+        (WITDialogShim) => {
+            WITDialogShim.createNewWorkItem("${wit}");
+        },
+    );
+    `);
+}
 
 export class SelectWorkItem extends React.Component<{ workItemTypes: string[] }, void> {
     public render() {
-        console.log("a");
+        const hotkeys = generateHotkeys(this.props.workItemTypes);
         const witDivs = this.props.workItemTypes.map(wit =>
-            <div>
-                {wit}
-            </div>
+            <DefaultButton
+                autoFocus={wit === this.props.workItemTypes[0]}
+                onKeyDown={e => {
+                    if (e.key in hotkeys) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        newWorkItem(wit);
+                        this.close();
+                    }
+                    console.log("Keypress", e.key);
+                }}
+                onClick={e => {
+                    newWorkItem(wit);
+                    this.close();
+                }}
+                style={{
+                    display: "block",
+                    marginBottom: 3
+                }}
+            >
+                {`(${hotkeys[wit]}) ${wit}`}
+            </DefaultButton>
         );
         return <Dialog
             isOpen={true}
             type={DialogType.normal}
-            onDismiss={() => this.close()}
             title={"Complete key chord"}
+            onDismiss={() => this.close()}
             isBlocking={false}
         >
             {witDivs}
         </Dialog>;
     }
     private close() {
-        ReactDom.render(null, dialogContainer[0]);
+        dialogContainer.html("");
     }
 }
 
@@ -97,16 +143,6 @@ export function openCreateWorkItemMenu() {
     getWorkItemTypes((workItemTypes) => {
         console.log("Success", workItemTypes);
         ReactDom.render(<SelectWorkItem workItemTypes={workItemTypes} />, dialogContainer[0]);
-        // TODO find another way to get this past the compiler
-        // tslint:disable-next-line:no-eval
-        // eval(`
-        // require(
-        //     ["WorkItemTracking/SharedScripts/WorkItemDialogShim"],
-        //     (WITDialogShim) => {
-        //         WITDialogShim.createNewWorkItem("${workItemTypes[0]}");
-        //     },
-        // );
-        // `);
     }, (message) => {
         console.log("failure", message);
     });
