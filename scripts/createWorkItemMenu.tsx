@@ -71,15 +71,27 @@ $("body").append(dialogContainer);
 
 function generateHotkeys(workItemTypes: string[]): { [hotkeyOrWit: string]: string } {
     const mappings: { [hotkeyOrWit: string]: string } = {};
-    for (const wit of workItemTypes) {
+    witLoop: for (const wit of workItemTypes) {
         for (const char of wit) {
             const lowerChar = char.toLowerCase();
             if (!(lowerChar in mappings) && lowerChar != " ") {
                 mappings[lowerChar] = wit;
                 mappings[wit] = lowerChar;
-                break;
+                continue witLoop;
             }
         }
+
+        // All of the characters in the wit were used time to find an unrelated character to be the hotkey
+        /** Prioritize left hand keys on the keyboard */
+        const chars = "123456qwertyasdfghzxcvbnuiopjklm7890";
+        for (const char of chars) {
+            if (!(char in mappings)) {
+                mappings[char] = wit;
+                mappings[wit] = char;
+                continue witLoop;
+            }
+        }
+
     }
     return mappings;
 }
